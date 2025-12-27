@@ -21,60 +21,82 @@ const TESTIMONIALS = [
     author: "Sarah Liu",
     role: "CMO, Innovate Corp",
     initials: "SL"
+  },
+  {
+    text: "Working with Nocap was a game-changer for our social presence. The quality of content they deliver consistently outperforms our previous benchmarks.",
+    author: "James Chen",
+    role: "VP Marketing, TechFlow",
+    initials: "JC"
+  },
+  {
+    text: "Their team doesn't just shoot video; they build stories that resonate. The engagement metrics on our latest campaign speak for themselves.",
+    author: "Elena Rodriguez",
+    role: "Brand Director, Luxe Living",
+    initials: "ER"
+  },
+  {
+    text: "Professional, creative, and data-focused. Nocap Studios helped us scale our ad spend profitably through high-converting video creatives.",
+    author: "Michael Ross",
+    role: "Founder, Growth Masters",
+    initials: "MR"
   }
 ];
 
 export const Testimonials: React.FC = () => {
-  return (
-    <section className="py-24 bg-surface-dark relative overflow-hidden border-t border-white/5">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="flex justify-between items-end mb-16">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-          >
-            <span className="text-primary text-xs font-bold uppercase tracking-[0.2em]">Client Stories</span>
-            <h2 className="text-5xl md:text-6xl font-heading font-bold text-white mt-4 uppercase">Partnerships</h2>
-          </motion.div>
-          <div className="hidden md:flex gap-3">
-            <button className="w-14 h-14 flex items-center justify-center border border-white/10 hover:bg-white hover:text-black transition-all rounded-full group">
-              <ArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-            </button>
-            <button className="w-14 h-14 flex items-center justify-center border border-white/10 hover:bg-white hover:text-black transition-all rounded-full group">
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </div>
+  // Duplicate testimonials for seamless looping
+  const doubledTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
 
-        <div className="flex overflow-x-auto gap-8 pb-10 hide-scrollbar snap-x snap-mandatory">
-          {TESTIMONIALS.map((t, idx) => (
-            <motion.div
+  return (
+    <section className="py-16 bg-surface-dark relative overflow-hidden border-t border-white/5">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24 mb-12">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+        >
+          <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Client Stories</span>
+          <h2 className="text-5xl md:text-6xl font-heading font-bold text-white mt-4 uppercase">Partnerships</h2>
+        </motion.div>
+      </div>
+
+      <div className="flex overflow-hidden">
+        <motion.div
+          className="flex gap-6 pointer-events-none hover:pointer-events-auto"
+          animate={{ x: "-50%" }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 40,
+              ease: "linear",
+            },
+          }}
+          style={{ width: "fit-content" }}
+        >
+          {doubledTestimonials.map((t, idx) => (
+            <div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.15 }}
-              className="min-w-[90vw] md:min-w-[550px] snap-center bg-gradient-to-br from-white/5 to-black border border-white/5 p-10 md:p-14 rounded-2xl flex flex-col gap-8 hover:border-primary/30 transition-colors duration-300"
+              className="flex-shrink-0 w-[85vw] md:w-[450px] bg-gradient-to-br from-white/5 to-black border border-white/5 p-8 rounded-2xl flex flex-col gap-6 hover:border-primary/30 transition-colors duration-300"
             >
-              <Quote className="text-primary opacity-50" size={48} />
-              <p className="text-gray-300 text-xl leading-relaxed font-light italic">
+              <Quote className="text-blue-400 opacity-80" size={32} />
+              <p className="text-gray-300 text-lg leading-relaxed font-light italic">
                 "{t.text}"
               </p>
-              <div className="mt-auto flex items-center gap-5 pt-8 border-t border-white/5">
+              <div className="mt-auto flex items-center gap-4 pt-6 border-t border-white/5">
                 {t.img ? (
-                  <div className="w-16 h-16 rounded-full bg-cover bg-center border-2 border-primary/50" style={{ backgroundImage: `url(${t.img})` }} />
+                  <div className="w-12 h-12 rounded-full bg-cover bg-center border-2 border-primary/50" style={{ backgroundImage: `url(${t.img})` }} />
                 ) : (
-                  <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/30">
-                    <span className="font-heading font-bold text-2xl">{t.initials}</span>
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary border-2 border-primary/30">
+                    <span className="font-heading font-bold text-lg">{t.initials}</span>
                   </div>
                 )}
                 <div>
-                  <h4 className="text-white font-heading font-bold text-xl uppercase tracking-tight">{t.author}</h4>
-                  <p className="text-primary text-xs font-bold uppercase tracking-wider">{t.role}</p>
+                  <h4 className="text-white font-heading font-bold text-lg uppercase tracking-tight">{t.author}</h4>
+                  <p className="text-blue-300 text-[10px] font-bold uppercase tracking-wider">{t.role}</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<'home' | 'work'>('home');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -33,11 +34,13 @@ const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  const navigateTo = (view: 'home' | 'work') => {
+  const navigateTo = (view: 'home' | 'work', category: string = 'All') => {
     if (view === 'work') {
       window.location.hash = 'work';
+      setSelectedCategory(category);
     } else {
       window.location.hash = '';
+      setSelectedCategory('All');
     }
     setCurrentView(view);
     window.scrollTo({ top: 0, behavior: 'instant' as any });
@@ -49,9 +52,9 @@ const App: React.FC = () => {
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-[100] origin-left"
         style={{ scaleX }}
       />
-      
-      <Navbar currentView={currentView} onNavigate={navigateTo} />
-      
+
+      <Navbar currentView={currentView} onNavigate={(view) => navigateTo(view)} />
+
       <main>
         <AnimatePresence mode="wait">
           {currentView === 'home' ? (
@@ -62,10 +65,10 @@ const App: React.FC = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Hero onNavigate={navigateTo} />
+              <Hero onNavigate={(view) => navigateTo(view)} />
               <LogoMarquee />
-              <Categories />
-              <Portfolio onNavigate={navigateTo} />
+              <Categories onNavigate={navigateTo} />
+              <Portfolio onNavigate={(view) => navigateTo(view)} />
               <Testimonials />
             </motion.div>
           ) : (
@@ -76,13 +79,13 @@ const App: React.FC = () => {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <WorkPage onNavigate={navigateTo} />
+              <WorkPage onNavigate={(view) => navigateTo(view)} initialCategory={selectedCategory} />
             </motion.div>
           )}
         </AnimatePresence>
       </main>
-      
-      <Footer onNavigate={navigateTo} />
+
+      <Footer onNavigate={(view) => navigateTo(view)} />
     </div>
   );
 };

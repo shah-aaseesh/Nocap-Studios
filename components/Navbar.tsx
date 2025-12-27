@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 interface NavbarProps {
   currentView: 'home' | 'work';
@@ -22,8 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
   const navLinks = [
     { name: 'Home', view: 'home', href: '#' },
-    { name: 'The Work', view: 'work', href: '#work' },
-    { name: 'Expertise', view: 'home', href: '#expertise' },
+    { name: 'Our Work', view: 'work', href: '#work' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent, view: 'home' | 'work', href: string) => {
@@ -54,22 +53,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   return (
     <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-700 border-b ${isScrolled ? 'glass-nav border-white/10 py-4 shadow-2xl' : 'bg-transparent border-transparent py-8'}`}>
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        <div 
-          onClick={() => onNavigate('home')} 
+        <div
+          onClick={() => onNavigate('home')}
           className="flex items-center gap-3 group cursor-pointer"
         >
-          <motion.div
-            whileHover={{ rotate: 180 }}
-            transition={{ duration: 0.7, ease: "anticipate" }}
-            className="text-primary"
-          >
-            <Camera size={32} strokeWidth={2} />
-          </motion.div>
+
           <h1 className="text-xl md:text-2xl font-heading font-bold uppercase tracking-[0.2em] leading-none">Nocap Studios</h1>
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => {
             const active = isActive(link);
             return (
@@ -77,32 +70,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.view as any, link.href)}
-                className={`text-xs font-bold uppercase tracking-[0.3em] transition-all relative py-2 ${
-                  active ? 'text-primary' : 'text-gray-500 hover:text-white'
-                }`}
+                className={`text-xs font-bold uppercase tracking-[0.3em] transition-all relative py-2 px-4 rounded-full ${active ? 'bg-white text-blue-600' : 'text-gray-500 hover:bg-white hover:text-blue-600'
+                  }`}
               >
                 {link.name}
-                {active && (
-                  <motion.div 
-                    layoutId="nav-indicator"
-                    className="absolute -bottom-1 left-0 w-full h-[2px] bg-primary"
-                  />
-                )}
+
               </a>
             );
           })}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative border border-white/20 hover:border-primary rounded-none h-12 px-10 bg-transparent transition-all text-white overflow-hidden"
+            className="group relative border border-white/20 rounded-full h-12 px-10 bg-transparent transition-all text-white hover:bg-white hover:text-blue-600 overflow-hidden"
           >
-            <span className="relative z-10 text-[10px] font-bold uppercase tracking-[0.3em]">Get Started</span>
-            <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 origin-right transition-transform duration-500 mix-blend-difference" />
+            <span className="relative z-10 text-[10px] font-bold uppercase tracking-[0.3em]">Book a Call</span>
           </motion.button>
         </div>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           className="md:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
@@ -135,13 +121,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                   {link.name}
                 </motion.a>
               ))}
-              <motion.button 
+              <motion.button
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className="bg-primary text-white py-5 font-bold uppercase tracking-[0.3em] text-sm mt-4 active:scale-[0.98] transition-transform"
               >
-                Get Started
+                Book a Call
               </motion.button>
             </div>
           </motion.div>
