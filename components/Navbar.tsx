@@ -107,7 +107,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             exit={{ opacity: 0, height: 0 }}
             className="absolute top-full left-0 w-full bg-background-dark/98 border-b border-white/10 overflow-hidden backdrop-blur-3xl md:hidden"
           >
-            <div className="p-10 flex flex-col gap-8">
+            <div className="p-6 flex flex-col gap-8">
               {navLinks.map((link, idx) => (
                 <motion.a
                   key={link.name}

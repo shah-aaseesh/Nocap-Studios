@@ -14,14 +14,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   };
 
   return (
-    <footer className="bg-black border-t border-white/10 pt-32 pb-16">
+    <footer className="bg-black border-t border-white/10 pt-20 md:pt-32 pb-16">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 mb-20 md:mb-32">
           <div className="flex flex-col gap-10">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-white text-6xl md:text-[7rem] font-heading font-bold tracking-tight uppercase leading-[0.85]"
+              className="text-white text-4xl md:text-6xl lg:text-[7rem] font-heading font-bold tracking-tight uppercase leading-[0.85]"
             >
               Unlock your<br />
               <span className="text-primary">potential</span>

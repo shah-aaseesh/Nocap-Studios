@@ -81,7 +81,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
     : PROJECTS.filter(p => p.category === activeFilter);
 
   return (
-    <div className="bg-background-dark pt-32 md:pt-44 pb-32 min-h-screen relative z-10 overflow-hidden">
+    <div className="bg-background-dark pt-20 md:pt-44 pb-32 min-h-screen relative z-10 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
         {/* Navigation Breadcrumb */}
