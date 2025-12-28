@@ -109,7 +109,7 @@ const App: React.FC = () => {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <React.Suspense fallback={<PageLoader />}>
-                <Hero onNavigate={(view) => navigateTo(view)} />
+                <Hero onNavigate={(view) => navigateTo(view)} isLoading={isLoading} />
                 <LogoMarquee />
                 <Categories onNavigate={navigateTo} />
                 <Portfolio onNavigate={(view) => navigateTo(view)} />

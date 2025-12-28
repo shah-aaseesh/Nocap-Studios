@@ -9,9 +9,10 @@ const IMAGES = {
 
 interface HeroProps {
   onNavigate: (view: 'home' | 'work') => void;
+  isLoading: boolean;
 }
 
-const Counter = ({ value }: { value: string }) => {
+const Counter = ({ value, start }: { value: string; start: boolean }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -29,10 +30,10 @@ const Counter = ({ value }: { value: string }) => {
   const rounded = useTransform(spring, (latest) => Math.floor(latest).toLocaleString());
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && start) {
       spring.set(numericValue);
     }
-  }, [isInView, numericValue, spring]);
+  }, [isInView, start, numericValue, spring]);
 
   return (
     <span ref={ref} className="flex items-baseline justify-center">
@@ -43,14 +44,23 @@ const Counter = ({ value }: { value: string }) => {
   );
 };
 
-const Typewriter = ({ segments, delay = 100, wait = 2000 }: { segments: { text: string; className?: string }[]; delay?: number; wait?: number }) => {
+const Typewriter = ({ segments, delay = 100, wait = 2000, start = true }: { segments: { text: string; className?: string }[]; delay?: number; wait?: number; start?: boolean }) => {
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   // Calculate full text from segments
   const fullText = segments.map(s => s.text).join('');
 
   useEffect(() => {
+    if (start) {
+      setHasStarted(true);
+    }
+  }, [start]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
     let timeout: NodeJS.Timeout;
 
     const handleType = () => {
@@ -76,17 +86,16 @@ const Typewriter = ({ segments, delay = 100, wait = 2000 }: { segments: { text: 
 
     timeout = setTimeout(handleType, delay);
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, fullText, delay, wait]);
+  }, [displayText, isDeleting, fullText, delay, wait, hasStarted]);
 
   let currentPos = 0;
 
   return (
     <span>
       {segments.map((segment, index) => {
-        const start = currentPos;
-        const end = currentPos + segment.text.length;
+        const startIdx = currentPos;
         // Calculate how much of this segment should be shown based on global displayText length
-        const length = Math.max(0, Math.min(displayText.length - start, segment.text.length));
+        const length = Math.max(0, Math.min(displayText.length - startIdx, segment.text.length));
         const textToShow = segment.text.substring(0, length);
         currentPos += segment.text.length;
 
@@ -101,7 +110,7 @@ const Typewriter = ({ segments, delay = 100, wait = 2000 }: { segments: { text: 
   );
 };
 
-export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
+export const Hero: React.FC<HeroProps> = ({ onNavigate, isLoading }) => {
   const stats = [
     { icon: <TrendingUp size={32} />, value: '$400M+', label: 'Property Value' },
     { icon: <BarChart3 size={32} />, value: '100M+', label: 'Engagement' },
@@ -133,6 +142,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           {/* Typewriter Effect for "We make things that only we can make" */}
           <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto h-[1.2em] md:h-[2.4em] flex items-center justify-center">
             <Typewriter
+              start={!isLoading}
               segments={[
                 { text: "We make things that " },
                 {
@@ -171,7 +181,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
                 {stat.icon}
               </div>
               <div className="text-6xl lg:text-7xl font-heading font-bold text-white">
-                <Counter value={stat.value} />
+                <Counter value={stat.value} start={!isLoading} />
               </div>
               <p className="text-gray-500 text-xs font-bold uppercase tracking-[0.2em]">{stat.label}</p>
             </motion.div>
