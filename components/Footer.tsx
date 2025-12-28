@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Camera } from 'lucide-react';
+import { Camera, Instagram, Linkedin, Mail } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (view: 'home' | 'work') => void;
@@ -10,73 +10,25 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const footerLinks = {
     Solutions: ['ROI Optimization', 'Market Penetration', 'Brand Authority', 'Data Analytics'],
-    Connect: ['Instagram', 'LinkedIn', 'Email', 'Whatsapp']
   };
 
   return (
     <footer className="bg-black border-t border-white/10 pt-20 md:pt-32 pb-16">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 mb-20 md:mb-32">
-          <div className="flex flex-col gap-10">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="text-white text-4xl md:text-6xl lg:text-[7rem] font-heading font-bold tracking-tight uppercase leading-[0.85]"
-            >
-              Unlock your<br />
-              <span className="text-primary">potential</span>
-            </motion.h2>
-            <p className="text-gray-400 text-lg max-w-md font-body leading-relaxed">
-              Let's discuss how Nocap Studios can drive your next wave of growth and innovation.
-            </p>
 
-          </div>
-
-          <div className="pt-8 lg:ml-auto">
-            <div className="flex flex-col gap-10">
-              <div className="grid grid-cols-2 gap-12 md:gap-24">
-                <div className="flex flex-col gap-8">
-                  <h4 className="text-primary font-heading font-bold uppercase tracking-widest text-sm">Quick Links</h4>
-                  <div className="flex flex-col gap-4">
-                    <button onClick={() => onNavigate('home')} className="text-gray-500 hover:text-white transition-colors text-base font-body text-left">Home</button>
-                    <button onClick={() => onNavigate('work')} className="text-gray-500 hover:text-white transition-colors text-base font-body text-left">The Archive</button>
-                    <button onClick={() => { onNavigate('home'); setTimeout(() => document.querySelector('#expertise')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="text-gray-500 hover:text-white transition-colors text-base font-body text-left">Expertise</button>
-                  </div>
-                </div>
-                {Object.entries(footerLinks).map(([title, links]) => (
-                  title !== 'Solutions' && (
-                    <div key={title} className="flex flex-col gap-8">
-                      <h4 className="text-primary font-heading font-bold uppercase tracking-widest text-sm">{title}</h4>
-                      <div className="flex flex-col gap-4">
-                        {links.map((link) => (
-                          <a
-                            key={link}
-                            href="#"
-                            className="text-gray-500 hover:text-white transition-colors text-base font-body"
-                          >
-                            {link}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )
-                ))}
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="h-14 px-8 bg-primary hover:bg-white text-white hover:text-black text-sm font-bold uppercase tracking-widest transition-all shadow-xl shadow-primary/10 w-fit"
-              >
-                Schedule Strategy Call
-              </motion.button>
-            </div>
-          </div>
-        </div>
 
         <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-          <div onClick={() => onNavigate('home')} className="flex items-center gap-3 text-white cursor-pointer">
-            <Camera className="text-primary" size={28} />
-            <span className="font-heading font-bold tracking-tight uppercase text-2xl">Nocap Studios</span>
-          </div>
+          <motion.div
+            onClick={() => onNavigate('home')}
+            className="flex items-center gap-3 text-white cursor-pointer"
+            initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.05, filter: 'brightness(1.1)', transition: { duration: 0.3 } }}
+          >
+            <img src="/logo.png" alt="Nocap Studios" className="h-16 w-auto object-contain" />
+          </motion.div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-12 items-center">
             <p className="text-gray-600 text-xs font-body uppercase tracking-widest">
               © 2024 Nocap Studios Partners. All rights reserved.

@@ -3,44 +3,45 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 
-const TESTIMONIALS = [
-  {
-    text: "Nocap Studios transformed our content strategy into a revenue-generating engine. Their data-driven approach led to a 40% improvement in our key performance indicators, solidifying our market position.",
-    author: "Dr. Evelyn Reed",
-    role: "Head of Growth, Apex Solutions",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBdv4cSb-r-R0pYA9a_1hqHyqe5DeyeFPikn69vO18WguTRJEiEKQr0TNSCU5f5CmubufFInG9qdySUEsSX_4Eg4ULHKxbnksgJmr97fGjAd37b6oRZ1qjczjCp0H266yrWgpQXV7Yf7r_ib1GWUeULympvikHzB5fLoX4HZQPPL57rEw74VStCMUHrZLCBcAfNCJxBjpF9nR64ghO3LQbnrAICAB-_YDmMBATcs5tn9JNJ8zcaIYIxhRgOMS0wAOAV7NmPyB1S0O0g"
-  },
-  {
-    text: "The level of detail and cinematic quality they brought to our real estate portfolio was unmatched. We saw properties moving twice as fast after implementing their video tours.",
-    author: "Marcus James",
-    role: "Director, Skyline Realty",
-    initials: "MJ"
-  },
-  {
-    text: "A partner that truly understands the intersection of brand narrative and performance metrics. Their work on our rebranding campaign was pivotal to our successful IPO.",
-    author: "Sarah Liu",
-    role: "CMO, Innovate Corp",
-    initials: "SL"
-  },
-  {
-    text: "Working with Nocap was a game-changer for our social presence. The quality of content they deliver consistently outperforms our previous benchmarks.",
-    author: "James Chen",
-    role: "VP Marketing, TechFlow",
-    initials: "JC"
-  },
-  {
-    text: "Their team doesn't just shoot video; they build stories that resonate. The engagement metrics on our latest campaign speak for themselves.",
-    author: "Elena Rodriguez",
-    role: "Brand Director, Luxe Living",
-    initials: "ER"
-  },
-  {
-    text: "Professional, creative, and data-focused. Nocap Studios helped us scale our ad spend profitably through high-converting video creatives.",
-    author: "Michael Ross",
-    role: "Founder, Growth Masters",
-    initials: "MR"
-  }
-];
+const TESTIMONIALS: {
+  text: string;
+  author: string;
+  role: string;
+  initials: string;
+  img?: string;
+}[] = [
+
+    {
+      text: "Highly creative, easy to communicate with, and consistently delivering a top-notch final product.",
+      author: "Tyler Adams",
+      role: "HardHat Media",
+      initials: "TA"
+    },
+    {
+      text: "All of their work is crazy. Partnering-up with them gave a boost to my business.",
+      author: "Andre",
+      role: "AK Media",
+      initials: "A"
+    },
+    {
+      text: "NoCap Studios always does a great job with editing my videos, they always take on my feedback and apply it within a timely manner. The unlimited revisions are great, and helps us out a lot!",
+      author: "Connor",
+      role: "Nexus Media",
+      initials: "C"
+    },
+    {
+      text: "They make the entire process seamless, and the final product looks fresh, professional, and perfectly on-brand.",
+      author: "Mandy Herold",
+      role: "Speaker, Coach, Facilitator",
+      initials: "MH"
+    },
+    {
+      text: "NoCap Studios helped me develop high-impact ideas and turn them into content that captured the market’s attention.",
+      author: "Roberto Magana",
+      role: "Magana Productions",
+      initials: "RM"
+    }
+  ];
 
 export const Testimonials: React.FC = () => {
   // Duplicate testimonials for seamless looping

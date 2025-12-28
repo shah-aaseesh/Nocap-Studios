@@ -1,15 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { Play, ArrowUpRight, Filter, ChevronRight, ArrowLeft, Clock, Eye, LayoutGrid, Building2, Megaphone, User } from 'lucide-react';
+import { Play, ArrowUpRight, Filter, ChevronRight, ArrowLeft, Clock, Eye, LayoutGrid, Building2, Megaphone, User, Layers } from 'lucide-react';
+import { VideoPlayer } from './VideoPlayer';
 
 interface WorkPageProps {
   onNavigate: (view: 'home' | 'work') => void;
+  initialCategory?: string;
 }
 
-const CATEGORIES = ['All', 'Real Estate', 'Commercial', 'Personal Brand'];
+const CATEGORIES = ['All', 'Real Estate', 'Commercial', 'Personal Brand', 'Others'];
 
-const PROJECTS = [
+export const PROJECTS = [
   {
     id: 1,
     title: "Skyline Residences",
@@ -43,7 +45,17 @@ const PROJECTS = [
     description: "Documentary-style profile highlighting thought leadership and brand vision.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw"
   },
-
+  {
+    id: 4,
+    title: "Tech Summit Recap",
+    category: "Others",
+    client: "Global Tech Summit",
+    impact: "Event Highlight",
+    duration: "2:30",
+    views: "18.5K",
+    description: "Comprehensive event coverage capturing keynotes, networking, and atmosphere.",
+    image: "https://images.unsplash.com/photo-1540575467063-178a50918e7f?q=80&w=2070&auto=format&fit=crop"
+  },
   {
     id: 5,
     title: "Apex Tech Explainer",
@@ -65,6 +77,17 @@ const PROJECTS = [
     views: "31.7K",
     description: "High-altitude luxury captured through precision drone work and stabilized ground shots.",
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw"
+  },
+  {
+    id: 7,
+    title: "Neon City Music Video",
+    category: "Others",
+    client: "Indie Artist label",
+    impact: "Viral Launch",
+    duration: "3:45",
+    views: "1.2M",
+    description: "Cyberpunk aesthetic music video with heavy VFX and dynamic editing.",
+    image: "https://images.unsplash.com/photo-1507842217121-ad0773cf4a0f?q=80&w=2670&auto=format&fit=crop"
   }
 ];
 
@@ -85,15 +108,7 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
         {/* Navigation Breadcrumb */}
-        <motion.button
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          onClick={() => onNavigate('home')}
-          className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors mb-12 group"
-        >
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-xs font-bold uppercase tracking-[0.3em]">Back to Home</span>
-        </motion.button>
+
 
         {/* Header Section */}
         <div className="mb-12 flex flex-col items-center text-center">
@@ -121,7 +136,8 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
               'All': LayoutGrid,
               'Real Estate': Building2,
               'Commercial': Megaphone,
-              'Personal Brand': User
+              'Personal Brand': User,
+              'Others': Layers
             };
             const Icon = icons[cat as keyof typeof icons] || Filter;
             const isActive = activeFilter === cat;
@@ -142,6 +158,8 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
           })}
         </div>
 
+
+
         {/* Projects Grid - Uniform 9:16 Portrait */}
         <LayoutGroup>
           <motion.div
@@ -160,15 +178,22 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     className="group relative aspect-[9/16] overflow-hidden bg-surface-dark rounded-2xl cursor-pointer ring-1 ring-white/5 hover:ring-primary/50 transition-all duration-500 shadow-2xl"
                   >
-                    {/* Background Image with Zoom */}
-                    <motion.div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                      style={{ backgroundImage: `url(${project.image})` }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                    {/* Video Player / Lazy Image Header */}
+                    <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
+                      <VideoPlayer
+                        src="" // No video src for now in this list, but prepared for it
+                        poster={project.image}
+                        autoPlay={true}
+                        muted={true}
+                        loop={true}
+                        className="w-full h-full"
+                      />
+                    </div>
+
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                     {/* Top Overlay Stats */}
-                    <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-start z-10">
+                    <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-start z-10 pointer-events-none">
                       <div className="flex flex-col gap-2">
                         <div className="px-3 py-1 bg-primary/80 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
                           <span className="text-white font-bold uppercase tracking-[0.2em] text-[10px] leading-none">{project.category}</span>

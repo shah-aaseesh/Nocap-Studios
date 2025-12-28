@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Building2, MousePointerClick, User } from 'lucide-react';
+import { Building2, MousePointerClick, User, Layers } from 'lucide-react';
 
 const CATEGORIES = [
   {
@@ -9,7 +9,7 @@ const CATEGORIES = [
     description: "Luxury property tours and architectural showcases that drive high-value transactions. We capture the essence of space and lifestyle.",
     icon: <Building2 />,
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYyU6IAlNR9tiOjaPMfbWYK3g_Hx-RL90mqBrFxaq46WqhlXiwOS4ljWgJxsApEuzycElhqoX0KgKKdOvCe3N6wqXHI7FAYffqLcvXJgqntMSpZzyB9SmSWqo55FOVyaxpKjc_2SSXZGx4b_w_EtsNNiMiPzIwLb4ssxmmeArVpSQyezc9J5mGk4SM_IIK9ZZzGB_XeikALzphyqkbcbefIgS4JpHGzwa6wTJEfMes1pJ12iErTsGLKL9s-mfQboVcBn_uQvXhlgqz",
-    gridSpan: "lg:col-span-1 lg:row-span-2 h-[500px] lg:h-full",
+    gridSpan: "lg:col-span-1 h-[350px] lg:h-auto",
     filterId: "Real Estate"
   },
   {
@@ -27,6 +27,14 @@ const CATEGORIES = [
     image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw",
     gridSpan: "lg:col-span-1 h-[350px] lg:h-auto",
     filterId: "Personal Brand"
+  },
+  {
+    title: "Others",
+    description: "Diverse creative projects and specialized content tailored to unique requirements.",
+    icon: <Layers />,
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+    gridSpan: "lg:col-span-1 h-[350px] lg:h-auto",
+    filterId: "Others"
   }
 ];
 

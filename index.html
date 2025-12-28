@@ -1,13 +1,19 @@
-
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>Nocap Studios - Premium Video Production</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet" />
+  <link rel="preconnect" href="https://calendly.com" />
+  <link rel="dns-prefetch" href="https://calendly.com" />
+  <link rel="preconnect" href="https://assets.calendly.com" />
+  <link rel="dns-prefetch" href="https://assets.calendly.com" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script id="tailwind-config">
     tailwind.config = {
@@ -19,7 +25,7 @@
             "secondary": "#A7B9CB", // Muted Silver
             "background-dark": "#0A0A0A", // Deep forest black
             "surface-dark": "#161D26", // Refined surface dark
-            "charcoal": "#111820", 
+            "charcoal": "#111820",
             "gray-400": "#A7B9CB",
             "gray-500": "#7D8D9E",
           },
@@ -59,36 +65,44 @@
       margin: 0;
       padding: 0;
     }
+
     ::-webkit-scrollbar {
       width: 6px;
     }
+
     ::-webkit-scrollbar-track {
       background: #0A0A0A;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #1E2833;
       border-radius: 10px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #0A3D62;
     }
+
     .glass-nav {
       background: rgba(10, 10, 10, 0.8);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
+
     .hide-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .hide-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     .animate-gradient-flow {
       background-size: 200% 200%;
     }
   </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
     "react": "https://esm.sh/react@^19.2.3",
@@ -100,8 +114,11 @@
 }
 </script>
 </head>
-<body class="bg-background-dark text-white font-body overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+
+<body
+  class="bg-background-dark text-white font-body overflow-x-hidden antialiased selection:bg-primary selection:text-white">
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView, useSpring, useTransform } from 'framer-motion';
 import { TrendingUp, BarChart3, Zap, ArrowRight } from 'lucide-react';
 
 const IMAGES = {
@@ -11,11 +11,101 @@ interface HeroProps {
   onNavigate: (view: 'home' | 'work') => void;
 }
 
+const Counter = ({ value }: { value: string }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  // Parse the value string to find the number part and surrounding text
+  const match = value.match(/^(\D*)([\d\.,]+)(\D*)$/);
+  const prefix = match ? match[1] : '';
+  const numberStr = match ? match[2].replace(/,/g, '') : '0';
+  const numericValue = parseFloat(numberStr);
+  const suffix = match ? match[3] : value;
+
+  // If parsing failed (no number), just return the value static
+  if (!match) return <span ref={ref}>{value}</span>;
+
+  const spring = useSpring(0, { bounce: 0, duration: 2000 });
+  const rounded = useTransform(spring, (latest) => Math.floor(latest).toLocaleString());
+
+  useEffect(() => {
+    if (isInView) {
+      spring.set(numericValue);
+    }
+  }, [isInView, numericValue, spring]);
+
+  return (
+    <span ref={ref} className="flex items-baseline justify-center">
+      {prefix}
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </span>
+  );
+};
+
+const Typewriter = ({ segments, delay = 100, wait = 2000 }: { segments: { text: string; className?: string }[]; delay?: number; wait?: number }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Calculate full text from segments
+  const fullText = segments.map(s => s.text).join('');
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
+    const handleType = () => {
+      const currentLength = displayText.length;
+
+      if (!isDeleting && currentLength < fullText.length) {
+        // Typing
+        setDisplayText(fullText.substring(0, currentLength + 1));
+        timeout = setTimeout(handleType, delay);
+      } else if (!isDeleting && currentLength === fullText.length) {
+        // Finished typing, wait
+        timeout = setTimeout(() => setIsDeleting(true), wait);
+      } else if (isDeleting && currentLength > 0) {
+        // Deleting
+        setDisplayText(fullText.substring(0, currentLength - 1));
+        timeout = setTimeout(handleType, delay / 2);
+      } else if (isDeleting && currentLength === 0) {
+        // Finished deleting, restart
+        setIsDeleting(false);
+        timeout = setTimeout(handleType, delay);
+      }
+    };
+
+    timeout = setTimeout(handleType, delay);
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, fullText, delay, wait]);
+
+  let currentPos = 0;
+
+  return (
+    <span>
+      {segments.map((segment, index) => {
+        const start = currentPos;
+        const end = currentPos + segment.text.length;
+        // Calculate how much of this segment should be shown based on global displayText length
+        const length = Math.max(0, Math.min(displayText.length - start, segment.text.length));
+        const textToShow = segment.text.substring(0, length);
+        currentPos += segment.text.length;
+
+        return (
+          <span key={index} className={segment.className}>
+            {textToShow}
+          </span>
+        );
+      })}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+};
+
 export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const stats = [
     { icon: <TrendingUp size={32} />, value: '$400M+', label: 'Property Value' },
     { icon: <BarChart3 size={32} />, value: '100M+', label: 'Engagement' },
-    { icon: <Zap size={32} />, value: 'GLOBAL', label: 'Projects Delivered' },
+    { icon: <Zap size={32} />, value: '3000+', label: 'Videos Edited' },
   ];
 
   return (
@@ -40,22 +130,26 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           transition={{ duration: 0.8 }}
           className="flex flex-col gap-8"
         >
-          <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-heading font-bold leading-[0.85] tracking-tight uppercase">
-            Quantifiable Impact<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0A3D62] via-[#A7B9CB] to-[#0A3D62] bg-[length:200%_auto] animate-gradient-flow">
-              Strategic Growth
-            </span>
+          {/* Typewriter Effect for "We make things that only we can make" */}
+          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto h-[1.2em] md:h-[2.4em] flex items-center justify-center">
+            <Typewriter
+              segments={[
+                { text: "We make things that " },
+                {
+                  text: "only we can make",
+                  className: "text-transparent bg-clip-text bg-gradient-to-r from-[#0A3D62] via-[#A7B9CB] to-[#0A3D62] bg-[length:200%_auto] animate-gradient-flow"
+                }
+              ]}
+            />
           </h1>
-          <p className="text-gray-400 text-lg md:text-xl font-body font-bold leading-relaxed max-w-3xl mx-auto tracking-wide">
-            We engineer video content that doesn't just look expensive—it performs. Data-driven strategies for high-stakes brands.
-          </p>
+
 
           <div className="flex justify-center mt-6">
             <a
               href="https://speakervideos.co/"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-white/5 backdrop-blur-md border border-white/10 px-6 py-2 text-sm font-bold text-gray-300 tracking-wider hover:bg-white/10 transition-colors"
+              className="rounded-full bg-white/5 backdrop-blur-md border border-white/10 px-8 py-3 text-base font-bold text-gray-300 tracking-wider hover:bg-white/10 transition-colors"
             >
               Partnered with <span className="text-white">SPEAKERVIDEOS</span>
             </a>
@@ -76,7 +170,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               <div className="text-primary/80 mb-2 group-hover:scale-110 transition-transform duration-300">
                 {stat.icon}
               </div>
-              <p className="text-6xl lg:text-7xl font-heading font-bold text-white">{stat.value}</p>
+              <div className="text-6xl lg:text-7xl font-heading font-bold text-white">
+                <Counter value={stat.value} />
+              </div>
               <p className="text-gray-500 text-xs font-bold uppercase tracking-[0.2em]">{stat.label}</p>
             </motion.div>
           ))}
