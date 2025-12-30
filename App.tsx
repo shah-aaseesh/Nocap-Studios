@@ -22,6 +22,7 @@ const PageLoader = () => (
   </div>
 );
 
+import Lenis from 'lenis';
 import { Preloader } from './components/Preloader';
 
 const App: React.FC = () => {
@@ -29,6 +30,28 @@ const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [isLoading, setIsLoading] = useState(true);
   const { scrollYProgress } = useScroll();
+
+  // Initialize Smooth Scrolling (Lenis)
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   // Simulate initial loading & Eager load external scripts & assets
   useEffect(() => {

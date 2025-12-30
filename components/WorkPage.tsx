@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { Play, ArrowUpRight, Filter, ChevronRight, ArrowLeft, Clock, Eye, LayoutGrid, Building2, Megaphone, User, Layers } from 'lucide-react';
+import { Play, ArrowUpRight, Filter, ChevronRight, ArrowLeft, Clock, Eye, LayoutGrid, Building2, Megaphone, User, Layers, Monitor } from 'lucide-react';
 import { VideoPlayer } from './VideoPlayer';
 
 interface WorkPageProps {
@@ -9,105 +9,401 @@ interface WorkPageProps {
   initialCategory?: string;
 }
 
-const CATEGORIES = ['All', 'Real Estate', 'Commercial', 'Personal Brand', 'Others'];
+const CATEGORIES = ['All', 'Real Estate', 'Commercial', 'Personal Brand', 'Others', 'Landscape'];
+const ITEMS_PER_PAGE = 8;
 
 export const PROJECTS = [
+
+
   {
-    id: 1,
-    title: "Skyline Residences",
-    category: "Real Estate",
-    client: "Skyline Realty Group",
-    impact: "+35% Sales Velocity",
-    duration: "0:45",
-    views: "12.4K",
-    description: "A luxury cinematic walkthrough capturing the intersection of modern architecture and urban lifestyle.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYyU6IAlNR9tiOjaPMfbWYK3g_Hx-RL90mqBrFxaq46WqhlxIiwOS4ljWgJxsApEuzycElhqoX0KgKK0OvCe3N6wqXHI7FAYffqLcvXJgqntMSpZzyB9SmSWqo55FOVyaxpKjc_2SSXZGx4b_w_EtsNNiMiPzIwLb4ssxmmeArVpSQyezc9J5mGk4SM_IIK9ZZzGB_XeikALvphyqkbcbefIgS4JpHGzwa6wTJEfMes1pJ12iErTsGLKL9s-mfQboVcBn_uQvXhlgqz"
-  },
-  {
-    id: 2,
-    title: "InnovateCorp Campaign",
-    category: "Commercial",
-    client: "Innovate Corp",
-    impact: "2.1x Lead Gen",
-    duration: "0:15",
-    views: "45.2K",
-    description: "Fast-paced, high-energy commercial designed for multi-platform digital rollout.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDiTEDHHyom3XRrAJWaWW8hsY_upVoGWvcrImw5-4eBeFwkw9GwVEJD_l74IplzkFxfNUpyUE2GFGfscVHfqfWnhL7FNuB2aCvpQLnBhL8RL4rEVwyQIaZ9HcMiTT5wcjoYYA3qw7TD_Kuf5ZkrrjO83b3Jj3zkJDtWrW7ol3jiDm8TYwBwjsSwHW6xN7pNDNrNDSEP-NVfAmQCyKW24YT6OggGR8tpfR-OqNRoKu_A9kJW8qdgEoOtm3EtoZ-WgL1Q67nMJqx_CQcL"
-  },
-  {
-    id: 3,
-    title: "The Executive Reel",
+    id: 28,
+    title: "Thought Leader",
     category: "Personal Brand",
-    client: "Sarah Liu, CMO",
+    client: "Sarah Liu",
     impact: "+60% Reach",
-    duration: "0:60",
-    views: "8.9K",
-    description: "Documentary-style profile highlighting thought leadership and brand vision.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw"
-  },
-  {
-    id: 4,
-    title: "Tech Summit Recap",
-    category: "Others",
-    client: "Global Tech Summit",
-    impact: "Event Highlight",
-    duration: "2:30",
-    views: "18.5K",
-    description: "Comprehensive event coverage capturing keynotes, networking, and atmosphere.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50918e7f?q=80&w=2070&auto=format&fit=crop"
-  },
-  {
-    id: 5,
-    title: "Apex Tech Explainer",
-    category: "Commercial",
-    client: "Apex Solutions",
-    impact: "40% KPI Improvement",
-    duration: "0:50",
-    views: "22.3K",
-    description: "Complex data made simple through cinematic storytelling and motion graphics.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDiTEDHHyom3XRrAJWaWW8hsY_upVoGWvcrImw5-4eBeFwkw9GwVEJD_l74IplzkFxfNUpyUE2GFGfscVHfqfWnhL7FNuB2aCvpQLnBhL8RL4rEVwyQIaZ9HcMiTT5wcjoYYA3qw7TD_Kuf5ZkrrjO83b3Jj3zkJDtWrW7ol3jiDm8TYwBwjsSwHW6xN7pNDNrNDSEP-NVfAmQCyKW24YT6OggGR8tpfR-OqNRoKu_A9kJW8qdgEoOtm3EtoZ-WgL1Q67nMJqx_CQcL"
-  },
-  {
-    id: 6,
-    title: "Summit Retreats",
-    category: "Real Estate",
-    client: "Summit Leisure",
-    impact: "100% Bookings",
     duration: "0:45",
-    views: "31.7K",
-    description: "High-altitude luxury captured through precision drone work and stabilized ground shots.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw"
+    views: "9.5K",
+    description: "Documentary-style profile highlighting thought leadership.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p3_dqupug.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p3_dqupug.jpg"
   },
   {
-    id: 7,
-    title: "Neon City Music Video",
+    id: 29,
+    title: "Speaking Gig",
+    category: "Personal Brand",
+    client: "Mark Johnson",
+    impact: "Brand Authority",
+    duration: "0:52",
+    views: "11.1K",
+    description: "Dynamic reel showcasing keynote speaking moments.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p1_ohhzwi.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p1_ohhzwi.jpg"
+  },
+  {
+    id: 30,
+    title: "Behind the Scenes",
+    category: "Personal Brand",
+    client: "Creative Co",
+    impact: "Engagement",
+    duration: "0:38",
+    views: "8.4K",
+    description: "Authentic look at the creative process and daily life.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p2_u4rgno.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p2_u4rgno.jpg"
+  },
+  {
+    id: 31,
+    title: "Influencer Lifestyle",
+    category: "Personal Brand",
+    client: "Jessica Chen",
+    impact: "Viral Content",
+    duration: "0:41",
+    views: "22.3K",
+    description: "High-energy lifestyle content for social media growth.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095077/p4_tcserx.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095077/p4_tcserx.jpg"
+  },
+
+
+
+
+  {
+    id: 8,
+    title: "Luxury Estate Tour",
+    category: "Real Estate",
+    client: "Premium Estates",
+    impact: "High Engagement",
+    duration: "1:00",
+    views: "5.2K",
+    description: "Cinematic tour of a modern luxury property.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087755/r8_tc883v.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087755/r8_tc883v.jpg"
+  },
+  {
+    id: 9,
+    title: "Modern Home Showcase",
+    category: "Real Estate",
+    client: "Urban Living",
+    impact: "Quick Sale",
+    duration: "0:56",
+    views: "8.1K",
+    description: "Showcasing the elegance and design of a contemporary home.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087760/r1_kixm1a.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087760/r1_kixm1a.jpg"
+  },
+  {
+    id: 10,
+    title: "Architectural Marvel",
+    category: "Real Estate",
+    client: "Design Build Co",
+    impact: "Brand Awareness",
+    duration: "1:15",
+    views: "10.5K",
+    description: "Highlighting the unique architectural details of a custom build.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087987/r5_yfyuoh.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087987/r5_yfyuoh.jpg"
+  },
+  {
+    id: 11,
+    title: "Sky View Appartments",
+    category: "Real Estate",
+    client: "Skyline Properties",
+    impact: "Lead Generation",
+    duration: "0:45",
+    views: "6.7K",
+    description: "Aerial and interior views of a high-rise apartment complex.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087636/r3_mj1bt6.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087636/r3_mj1bt6.jpg"
+  },
+  {
+    id: 12,
+    title: "Country Side Villa",
+    category: "Real Estate",
+    client: "Country Living",
+    impact: "Targeted Reach",
+    duration: "1:10",
+    views: "9.3K",
+    description: "Relaxing tour of a beautiful countryside villa.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087661/r7_saivga.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087661/r7_saivga.jpg"
+  },
+  {
+    id: 13,
+    title: "Modern Penthouse Tour",
+    category: "Real Estate",
+    client: "Elite Interiors",
+    impact: "Luxury Showcase",
+    duration: "1:05",
+    views: "11.2K",
+    description: "A tour of a high-end penthouse with stunning city views.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767088017/r6_e0yssy.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767088017/r6_e0yssy.jpg"
+  },
+  {
+    id: 14,
+    title: "Suburban Dream Home",
+    category: "Real Estate",
+    client: "Family Homes",
+    impact: "Community Reach",
+    duration: "0:58",
+    views: "7.8K",
+    description: "Warm and inviting tour of a spacious suburban family home.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.jpg"
+  },
+  {
+    id: 15,
+    title: "Urban Brand Story",
+    category: "Commercial",
+    client: "Metro Lifestyle",
+    impact: "Brand Awareness",
+    duration: "0:42",
+    views: "15.3K",
+    description: "Dynamic urban-themed commercial connecting with modern youth culture.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767091959/c6_mjwyum.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767091959/c6_mjwyum.jpg"
+  },
+  {
+    id: 16,
+    title: "Eco-Tech Innovation",
+    category: "Commercial",
+    client: "Green Future",
+    impact: "Lead Generation",
+    duration: "0:55",
+    views: "21.0K",
+    description: "Highlighting sustainable technology with clean, futuristic visuals.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.jpg"
+  },
+  {
+    id: 17,
+    title: "Fitness App Launch",
+    category: "Commercial",
+    client: "FitLife Pro",
+    impact: "App Installs",
+    duration: "0:30",
+    views: "55.4K",
+    description: "High-energy commercial showcasing the features of a new fitness application.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092051/c1_v8psf8.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092051/c1_v8psf8.jpg"
+  },
+  {
+    id: 18,
+    title: "Gourmet Coffee Ad",
+    category: "Commercial",
+    client: "Bean & Brew",
+    impact: "Sales Boost",
+    duration: "0:25",
+    views: "32.1K",
+    description: "sensory-focused commercial highlighting the aroma and taste of premium coffee.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092106/c4_ypoec8.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092106/c4_ypoec8.jpg"
+  },
+  {
+    id: 19,
+    title: "Corporate Vision",
+    category: "Commercial",
+    client: "Global Enterprises",
+    impact: "Recruitment",
+    duration: "1:15",
+    views: "12.8K",
+    description: "Inspiring video communicating the company's long-term vision and values.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092166/c3_w96awi.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092166/c3_w96awi.jpg"
+  },
+  {
+    id: 20,
+    title: "Automotive Reveal",
+    category: "Commercial",
+    client: "AutoMotion",
+    impact: "Pre-orders",
+    duration: "0:45",
+    views: "89.2K",
+    description: "Sleek and mysterious reveal of a new luxury vehicle model.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767091956/c2_bsttqj.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767091956/c2_bsttqj.jpg"
+  },
+
+  {
+    id: 21,
+    title: "Creative Studio Vlog",
     category: "Others",
-    client: "Indie Artist label",
-    impact: "Viral Launch",
-    duration: "3:45",
-    views: "1.2M",
-    description: "Cyberpunk aesthetic music video with heavy VFX and dynamic editing.",
-    image: "https://images.unsplash.com/photo-1507842217121-ad0773cf4a0f?q=80&w=2670&auto=format&fit=crop"
+    client: "Creator Hub",
+    impact: "Community Growth",
+    duration: "0:45",
+    views: "12.5K",
+    description: "Behind-the-scenes look at a modern creative studio environment.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092938/03_cwinv5.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092938/03_cwinv5.jpg"
+  },
+  {
+    id: 22,
+    title: "Fashion Week Highlights",
+    category: "Others",
+    client: "Style Magazine",
+    impact: "Trend Setting",
+    duration: "0:38",
+    views: "45.1K",
+    description: "Energetic montage of the latest runway trends and backstage moments.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092938/02_pohmwj.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092938/02_pohmwj.jpg"
+  },
+  {
+    id: 23,
+    title: "Travel Documentary",
+    category: "Others",
+    client: "Wanderlust TV",
+    impact: "Viewer Engagement",
+    duration: "1:15",
+    views: "28.9K",
+    description: "Cinematic travelogue capturing the essence of remote destinations.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092951/05_zrj1wd.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092951/05_zrj1wd.jpg"
+  },
+  {
+    id: 24,
+    title: "Culinary Arts Series",
+    category: "Others",
+    client: "Chef's Table",
+    impact: "Series Launch",
+    duration: "0:50",
+    views: "33.4K",
+    description: "Mouth-watering visuals of gourmet food preparation and plating.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092961/04_xalxlm.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092961/04_xalxlm.jpg"
+  },
+  {
+    id: 25,
+    title: "Extreme Sports Promo",
+    category: "Others",
+    client: "Adrenalin Rush",
+    impact: "Event Hype",
+    duration: "0:35",
+    views: "67.2K",
+    description: "High-octane action shots from various extreme sports events.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092955/01_mdxisl.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092955/01_mdxisl.jpg"
+  },
+  {
+    id: 26,
+    title: "Cinematic City Vibes",
+    category: "Commercial",
+    client: "Urban Life",
+    impact: "Brand Awareness",
+    duration: "0:57",
+    views: "15.2K",
+    description: "Cinematic shots of city life and urban architecture.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767093476/c7_yxwa6l.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767093476/c7_yxwa6l.jpg",
+    isLandscape: true
+  },
+  {
+    id: 27,
+    title: "Modern Real Estate Tour",
+    category: "Real Estate",
+    client: "Luxury Estates",
+    impact: "Property Showcase",
+    duration: "1:05",
+    views: "18.5K",
+    description: "Capturing the essence of luxury living spaces.",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767093529/r9_cocqfo.mp4",
+    image: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767093529/r9_cocqfo.jpg",
+    isLandscape: true
   }
 ];
 
 export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory = 'All' }) => {
   const [activeFilter, setActiveFilter] = useState(initialCategory);
+  const [columns, setColumns] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Update active filter when initialCategory changes
   useEffect(() => {
     setActiveFilter(initialCategory);
+    setCurrentPage(1);
   }, [initialCategory]);
 
-  const filteredProjects = activeFilter === 'All'
-    ? PROJECTS
-    : PROJECTS.filter(p => p.category === activeFilter);
+  // Reset page when filter changes internally
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeFilter]);
+
+  // Handle responsive column count
+  useEffect(() => {
+    const updateColumns = () => {
+      if (window.innerWidth < 640) setColumns(1);
+      else if (window.innerWidth < 1024) setColumns(2);
+      else if (window.innerWidth < 1280) setColumns(3);
+      else setColumns(4);
+    };
+
+    updateColumns();
+    window.addEventListener('resize', updateColumns);
+    return () => window.removeEventListener('resize', updateColumns);
+  }, []);
+
+  const filteredProjects = activeFilter === 'Landscape'
+    ? PROJECTS.filter(p => (p as any).isLandscape)
+    : activeFilter === 'All'
+      ? PROJECTS.filter(p => !(p as any).isLandscape)
+      : PROJECTS.filter(p => p.category === activeFilter && !(p as any).isLandscape);
+
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Distribute projects into columns
+  const displayColumns = activeFilter === 'Landscape'
+    ? (columns > 1 ? 2 : 1)
+    : columns;
+
+  const columnProjects = Array.from({ length: displayColumns }, () => [] as typeof PROJECTS);
+
+  if (activeFilter === 'Landscape') {
+    // Distribute landscape projects round-robin into 2 columns (or 1 on mobile)
+    paginatedProjects.forEach((project, index) => {
+      columnProjects[index % displayColumns].push(project);
+    });
+  } else {
+    const landscapeProjects = paginatedProjects.filter(p => (p as any).isLandscape);
+    const portraitProjects = paginatedProjects.filter(p => !(p as any).isLandscape);
+
+    // 1. Distribute portrait projects first (Round Robin)
+    portraitProjects.forEach((project, index) => {
+      columnProjects[index % displayColumns].push(project);
+    });
+
+    // 2. Inject landscape projects into the middle column
+    landscapeProjects.forEach((project, i) => {
+      // Target the middle column (or 0 if only 1 column)
+      const targetColIndex = Math.floor(displayColumns / 2);
+      const targetCol = columnProjects[targetColIndex];
+
+      // Insert at index 1 + i (to stack them sequentially after the first item)
+      // ensuring they are "covered" by the top item.
+      const insertIndex = targetCol.length > 0 ? 1 + i : 0;
+      targetCol.splice(insertIndex, 0, project);
+    });
+  }
 
   return (
     <div className="bg-background-dark pt-20 md:pt-44 pb-32 min-h-screen relative z-10 overflow-hidden">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
 
         {/* Navigation Breadcrumb */}
+        <div className="mb-12">
+          <button
+            onClick={() => onNavigate('home')}
+            className="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+          >
+            <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
+              <ArrowLeft size={20} />
+            </div>
+            <span className="font-medium tracking-wide">Back to Home</span>
+          </button>
+        </div>
 
 
         {/* Header Section */}
@@ -137,7 +433,8 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
               'Real Estate': Building2,
               'Commercial': Megaphone,
               'Personal Brand': User,
-              'Others': Layers
+              'Others': Layers,
+              'Landscape': Monitor
             };
             const Icon = icons[cat as keyof typeof icons] || Filter;
             const isActive = activeFilter === cat;
@@ -158,17 +455,12 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
           })}
         </div>
 
-
-
-        {/* Projects Grid - Uniform 9:16 Portrait */}
-        <LayoutGroup>
-          <motion.div
-            layout
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => {
-                return (
+        {/* Masonry Grid */}
+        <div className="flex gap-6 items-start">
+          <AnimatePresence mode="popLayout">
+            {columnProjects.map((col, colIndex) => (
+              <div key={colIndex} className="flex-1 flex flex-col gap-6">
+                {col.map((project) => (
                   <motion.div
                     key={project.id}
                     layout
@@ -176,21 +468,25 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                    className="group relative aspect-[9/16] overflow-hidden bg-surface-dark rounded-2xl cursor-pointer ring-1 ring-white/5 hover:ring-primary/50 transition-all duration-500 shadow-2xl"
+                    className={`group relative overflow-hidden bg-surface-dark rounded-2xl cursor-pointer ring-1 ring-white/5 hover:ring-primary/50 transition-all duration-500 shadow-2xl w-full ${
+                      // @ts-ignore
+                      project.isLandscape
+                        ? 'aspect-[16/10]'
+                        : 'aspect-[9/16]'
+                      }`}
                   >
                     {/* Video Player / Lazy Image Header */}
                     <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-105">
                       <VideoPlayer
-                        src="" // No video src for now in this list, but prepared for it
+                        src={project.video || ""}
                         poster={project.image}
-                        autoPlay={true}
+                        autoPlay={false}
                         muted={true}
                         loop={true}
+                        isLandscape={(project as any).isLandscape}
                         className="w-full h-full"
                       />
                     </div>
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                     {/* Top Overlay Stats */}
                     <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-start z-10 pointer-events-none">
@@ -200,15 +496,12 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
                         </div>
                       </div>
                     </div>
-
-                    {/* Hover Glow Effect */}
-                    <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                   </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-        </LayoutGroup>
+                ))}
+              </div>
+            ))}
+          </AnimatePresence>
+        </div>
 
         {/* Empty State */}
         {filteredProjects.length === 0 && (
@@ -227,8 +520,28 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
           </motion.div>
         )}
 
-        {/* Bottom CTA Section */}
-
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-16">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white"
+            >
+              <ArrowLeft size={24} />
+            </button>
+            <span className="text-white font-mono">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-2 rounded-full bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

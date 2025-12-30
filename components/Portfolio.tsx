@@ -1,35 +1,40 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { VideoPlayer } from './VideoPlayer';
 
 const WORKS = [
   {
-    title: "Skyline Residences",
+    title: "Suburban Dream Home",
     tag: "Real Estate",
-    impact: "+35% Sales",
-    views: "12K",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAYyU6IAlNR9tiOjaPMfbWYK3g_Hx-RL90mqBrFxaq46WqhlXiwOS4ljWgJxsApEuzycElhqoX0KgKKdOvCe3N6wqXHI7FAYffqLcvXJgqntMSpZzyB9SmSWqo55FOVyaxpKjc_2SSXZGx4b_w_EtsNNiMiPzIwLb4ssxmmeArVpSQyezc9J5mGk4SM_IIK9ZZzGB_XeikALzphyqkbcbefIgS4JpHGzwa6wTJEfMes1pJ12iErTsGLKL9s-mfQboVcBn_uQvXhlgqz"
+    impact: "high inquiries",
+    views: "7.8K",
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.mp4"
   },
   {
-    title: "InnovateCorp Ads",
+    title: "Eco-Tech Innovation",
     tag: "Commercial",
-    impact: "2.1x Leads",
-    views: "45K",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDiTEDHHyom3XRrAJWaWW8hsY_upVoGWvcrImw5-4eBeFwkw9GwVEJD_l74IplzkFxfNUpyUE2GFGfscVHfqfWnhL7FNuB2aCvpQLnBhL8RL4rEVwyQIaZ9HcMiTT5wcjoYYA3qw7TD_Kuf5ZkrrjO83b3Jj3zkJDtWrW7ol3jiDm8TYwBwjsSwHW6xN7pNDNrNDSEP-NVvAmQCyKW24YT6OggGR8tpfR-OqNRoKu_A9kJW8qdgEoOtm3EtoZ-WgL1Q67nMJqx_CQcL"
+    impact: "Lead Gen",
+    views: "21K",
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.mp4"
   },
   {
-    title: "Executive Reel",
+    title: "Thought Leader",
     tag: "Personal Brand",
     impact: "+60% Reach",
-    views: "9K",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAyAn2kRbwlFz4Z6pvjBjJCEHyg8i_NETkLnU2bM_JbdV3YzLsJsfiDjy7xrjh6k5igEaBUmgVerIAdzRma-oD3rhPnjIyXOMQ_DiOxjotOhPVFOfpv3zxL0B1Ldw-zZbT0leyaRBgTgUY8MiNmynGRrORrg2gEK4rs4kV3tQsoPaJDmCzkGP9LWl7JFHPvv0vscF2V6lDN3-rBEK3WOH0Cfnta6Nm1dKQyrJFxYxz3DUSvuNL75x74BhOTfkHPyEWf-Oq1n10Y6ZNw"
+    views: "9.5K",
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p3_dqupug.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767095104/p3_dqupug.mp4"
   },
   {
-    title: "Neon City Music Video",
+    title: "Travel Documentary",
     tag: "Others",
-    impact: "Viral Launch",
-    views: "1.2M",
-    img: "https://images.unsplash.com/photo-1507842217121-ad0773cf4a0f?q=80&w=2670&auto=format&fit=crop"
+    impact: "High Engagement",
+    views: "28.9K",
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092951/05_zrj1wd.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092951/05_zrj1wd.mp4"
   }
 ];
 
@@ -69,11 +74,16 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
               viewport={{ once: true }}
               className={`group relative aspect-[9/16] overflow-hidden rounded-2xl bg-surface-dark flex flex-col justify-end p-6 cursor-pointer transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl ring-1 ring-white/5 hover:ring-primary/40`}
             >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${work.img})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+              <div className="absolute inset-0">
+                <VideoPlayer
+                  src={work.video}
+                  poster={work.img}
+                  className="w-full h-full"
+                  autoPlay={false}
+                  muted={true}
+                  loop={true}
+                />
+              </div>
 
               {/* Tag Badge */}
               <div className="absolute top-4 left-4 z-10">

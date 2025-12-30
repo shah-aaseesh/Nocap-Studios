@@ -140,7 +140,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, isLoading }) => {
           className="flex flex-col gap-8"
         >
           {/* Typewriter Effect for "We make things that only we can make" */}
-          <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto h-[1.2em] md:h-[2.4em] flex items-center justify-center">
+          <h1 className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto h-[1.2em] md:h-[2.4em] flex items-center justify-center">
             <Typewriter
               start={!isLoading}
               segments={[
