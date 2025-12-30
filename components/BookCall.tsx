@@ -1,7 +1,10 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Typewriter } from './Typewriter';
 
 export const BookCall: React.FC = () => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { margin: "-100px" });
     const [isIframeLoaded, setIsIframeLoaded] = React.useState(false);
 
     return (
@@ -18,8 +21,8 @@ export const BookCall: React.FC = () => {
                     className="mb-8"
                 >
                     <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em] block">Get Started</span>
-                    <h2 className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
-                        Book A Call
+                    <h2 ref={ref} className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
+                        <Typewriter start={isInView} segments={[{ text: "Book A Call" }]} />
                     </h2>
                 </motion.div>
 

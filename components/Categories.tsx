@@ -1,7 +1,8 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Building2, MousePointerClick, User, Layers } from 'lucide-react';
+import { Typewriter } from './Typewriter';
 
 const CATEGORIES = [
   {
@@ -43,6 +44,8 @@ interface CategoriesProps {
 }
 
 export const Categories: React.FC<CategoriesProps> = ({ onNavigate }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-100px" });
   const handleCategoryClick = (category: string) => {
     if (onNavigate) {
       onNavigate('work', category);
@@ -58,7 +61,9 @@ export const Categories: React.FC<CategoriesProps> = ({ onNavigate }) => {
           className="mb-16 flex flex-col gap-4"
         >
           <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Our Expertise</span>
-          <h2 className="text-5xl md:text-7xl font-heading font-bold text-white uppercase">Categories</h2>
+          <h2 ref={ref} className="text-5xl md:text-7xl font-heading font-bold text-white uppercase">
+            <Typewriter start={isInView} segments={[{ text: "Categories" }]} />
+          </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-6 h-auto lg:h-[900px]">

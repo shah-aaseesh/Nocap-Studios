@@ -10,6 +10,9 @@ const MARQUEE_LOGOS = [
   { name: "Partner 5", src: "/logos/partner-5.jpg" },
   { name: "Partner 6", src: "/logos/partner-six.jpg" },
   { name: "Partner 7", src: "/logos/partner-seven.jpg" },
+  { name: "AK Media", src: "/logos/ak_media.jpg" },
+  { name: "Caprice Collective", src: "/logos/caprice.jpg" },
+  { name: "Reveal", src: "/logos/reveal.jpg" },
 ];
 
 export const LogoMarquee: React.FC = () => {

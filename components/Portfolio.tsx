@@ -1,7 +1,8 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { VideoPlayer } from './VideoPlayer';
+import { Typewriter } from './Typewriter';
 
 const WORKS = [
   {
@@ -9,16 +10,16 @@ const WORKS = [
     tag: "Real Estate",
     impact: "high inquiries",
     views: "7.8K",
-    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.jpg",
-    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087726/r2_vyrw80.mp4"
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087755/r8_tc883v.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767087755/r8_tc883v.mp4"
   },
   {
-    title: "Eco-Tech Innovation",
+    title: "Gourmet Coffee Ad",
     tag: "Commercial",
-    impact: "Lead Gen",
-    views: "21K",
-    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.jpg",
-    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092010/c5_sjva0e.mp4"
+    impact: "Sales Boost",
+    views: "32.1K",
+    img: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092106/c4_ypoec8.jpg",
+    video: "https://res.cloudinary.com/dkgvjf3nk/video/upload/v1767092106/c4_ypoec8.mp4"
   },
   {
     title: "Thought Leader",
@@ -43,6 +44,8 @@ interface PortfolioProps {
 }
 
 export const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-100px" });
   return (
     <section className="py-12 bg-background-dark relative border-t border-white/5" id="selected-works">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
@@ -52,7 +55,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onNavigate }) => {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Our Portfolio</span>
-            <h2 className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">SELECTED WORKS</h2>
+            <h2 ref={ref} className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
+              <Typewriter start={isInView} segments={[{ text: "SELECTED WORKS" }]} />
+            </h2>
           </motion.div>
           <button
             onClick={() => onNavigate('work')}

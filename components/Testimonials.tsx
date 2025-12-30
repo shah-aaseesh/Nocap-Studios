@@ -1,7 +1,8 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Quote, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Typewriter } from './Typewriter';
 
 const TESTIMONIALS: {
   text: string;
@@ -15,35 +16,49 @@ const TESTIMONIALS: {
       text: "Highly creative, easy to communicate with, and consistently delivering a top-notch final product.",
       author: "Tyler Adams",
       role: "HardHat Media",
-      initials: "TA"
+      initials: "TA",
+      img: "/testimonials/tyler.jpg"
     },
     {
       text: "All of their work is crazy. Partnering-up with them gave a boost to my business.",
       author: "Andre",
       role: "AK Media",
-      initials: "A"
+      initials: "A",
+      img: "/testimonials/andre.jpg"
     },
     {
       text: "NoCap Studios always does a great job with editing my videos, they always take on my feedback and apply it within a timely manner. The unlimited revisions are great, and helps us out a lot!",
       author: "Connor",
       role: "Nexus Media",
-      initials: "C"
+      initials: "C",
+      img: "/testimonials/connor.jpg"
     },
     {
       text: "They make the entire process seamless, and the final product looks fresh, professional, and perfectly on-brand.",
       author: "Mandy Herold",
       role: "Speaker, Coach, Facilitator",
-      initials: "MH"
+      initials: "MH",
+      img: "/testimonials/mandy.jpg"
     },
     {
       text: "NoCap Studios helped me develop high-impact ideas and turn them into content that captured the market’s attention.",
       author: "Roberto Magana",
       role: "Magana Productions",
-      initials: "RM"
+      initials: "RM",
+      img: "/testimonials/roberto.jpg"
+    },
+    {
+      text: "NoCap Studios has helped me improve my presence in social media and my listings gained a lot of engagement after I started working with them",
+      author: "Stacey Robinson",
+      role: "Realtor",
+      initials: "SR",
+      img: "/testimonials/stacey.jpg"
     }
   ];
 
 export const Testimonials: React.FC = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-100px" });
   // Duplicate testimonials for seamless looping
   const doubledTestimonials = [...TESTIMONIALS, ...TESTIMONIALS];
 
@@ -55,7 +70,9 @@ export const Testimonials: React.FC = () => {
           whileInView={{ opacity: 1, x: 0 }}
         >
           <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Client Stories</span>
-          <h2 className="text-5xl md:text-6xl font-heading font-bold text-white mt-4 uppercase">Partnerships</h2>
+          <h2 ref={ref} className="text-5xl md:text-6xl font-heading font-bold text-white mt-4 uppercase">
+            <Typewriter start={isInView} segments={[{ text: "Partnerships" }]} />
+          </h2>
         </motion.div>
       </div>
 

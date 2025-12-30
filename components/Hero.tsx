@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, useSpring, useTransform } from 'framer-motion';
 import { TrendingUp, BarChart3, Zap, ArrowRight } from 'lucide-react';
+import { Typewriter } from './Typewriter';
 
 const IMAGES = {
   hero: "https://lh3.googleusercontent.com/aida-public/AB6AXuBGoIMoJ_3zw0cKhwurxxm76PpCN1PxAY3Gr1hXDW0s94Ib3wo7ulMltU3g6kc44KPsyZINdwS1xHmIAOjomxUydIakGuFDTHkgfyMz_26ziodhJLnflCZ4wWTSghGFkLz_jkHmhO4i1F3DyOHw9rAUBYj5DjU4J6uSpq85YaeOUHbNKJKj7_W7jEwRO51jIsKs41CWSaGJUtbnn55SVnGKogwSMDUEc-iQUrkyrP7jVY17Oah-aazWhTjEN2e5arCjkwGGrhXCiNF-",
@@ -44,71 +45,7 @@ const Counter = ({ value, start }: { value: string; start: boolean }) => {
   );
 };
 
-const Typewriter = ({ segments, delay = 100, wait = 2000, start = true }: { segments: { text: string; className?: string }[]; delay?: number; wait?: number; start?: boolean }) => {
-  const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
 
-  // Calculate full text from segments
-  const fullText = segments.map(s => s.text).join('');
-
-  useEffect(() => {
-    if (start) {
-      setHasStarted(true);
-    }
-  }, [start]);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    let timeout: NodeJS.Timeout;
-
-    const handleType = () => {
-      const currentLength = displayText.length;
-
-      if (!isDeleting && currentLength < fullText.length) {
-        // Typing
-        setDisplayText(fullText.substring(0, currentLength + 1));
-        timeout = setTimeout(handleType, delay);
-      } else if (!isDeleting && currentLength === fullText.length) {
-        // Finished typing, wait
-        timeout = setTimeout(() => setIsDeleting(true), wait);
-      } else if (isDeleting && currentLength > 0) {
-        // Deleting
-        setDisplayText(fullText.substring(0, currentLength - 1));
-        timeout = setTimeout(handleType, delay / 2);
-      } else if (isDeleting && currentLength === 0) {
-        // Finished deleting, restart
-        setIsDeleting(false);
-        timeout = setTimeout(handleType, delay);
-      }
-    };
-
-    timeout = setTimeout(handleType, delay);
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, fullText, delay, wait, hasStarted]);
-
-  let currentPos = 0;
-
-  return (
-    <span>
-      {segments.map((segment, index) => {
-        const startIdx = currentPos;
-        // Calculate how much of this segment should be shown based on global displayText length
-        const length = Math.max(0, Math.min(displayText.length - startIdx, segment.text.length));
-        const textToShow = segment.text.substring(0, length);
-        currentPos += segment.text.length;
-
-        return (
-          <span key={index} className={segment.className}>
-            {textToShow}
-          </span>
-        );
-      })}
-      <span className="animate-pulse">|</span>
-    </span>
-  );
-};
 
 export const Hero: React.FC<HeroProps> = ({ onNavigate, isLoading }) => {
   const stats = [
@@ -143,6 +80,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, isLoading }) => {
           <h1 className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-heading font-bold leading-tight tracking-tight uppercase max-w-5xl mx-auto h-[1.2em] md:h-[2.4em] flex items-center justify-center">
             <Typewriter
               start={!isLoading}
+              loop={true}
               segments={[
                 { text: "We make things that " },
                 {

@@ -1,6 +1,7 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Typewriter } from './Typewriter';
 
 const CLIENTS = [
     { name: "Intuit", domain: "intuit.com", logo: "/logos/intuit.png", sizing: "h-16 md:h-20 max-w-[160px] md:max-w-[220px]" },
@@ -20,10 +21,14 @@ const CLIENTS = [
     { name: "ADNOC", domain: "adnoc.ae", logo: "/logos/adnoc.png" },
     { name: "Mercedes-Benz", domain: "mercedes-benz.com", logo: "/logos/mercedes.png", sizing: "h-20 md:h-24 max-w-[160px] md:max-w-[200px]" },
     { name: "Travelport", domain: "travelport.com", logo: "/logos/travelport.png", sizing: "h-16 md:h-20 max-w-[180px] md:max-w-[240px]" },
-    { name: "IBM", domain: "ibm.com", logo: "/logos/ibm.png" }
+    { name: "IBM", domain: "ibm.com", logo: "/logos/ibm.png" },
+    { name: "Ford", domain: "ford.com", logo: "/logos/ford.png" },
+    { name: "Tesla", domain: "tesla.com", logo: "/logos/tesla.png" }
 ];
 
 export const Clients: React.FC = () => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { margin: "-100px" });
     return (
         <section className="py-24 bg-surface-dark relative overflow-hidden border-t border-white/5">
             <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-24">
@@ -34,8 +39,9 @@ export const Clients: React.FC = () => {
                     className="mb-20"
                 >
                     <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Our Reach</span>
-                    <h2 className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
-                        Our Clients Are <br /> <span className="text-blue-400">Booked By</span>
+                    <h2 ref={ref} className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
+                        <Typewriter start={isInView} segments={[{ text: "Our Clients Are " }]} /> <br />
+                        <Typewriter start={isInView} initialDelay={1500} segments={[{ text: "Booked By", className: "text-blue-400" }]} />
                     </h2>
                 </motion.div>
 

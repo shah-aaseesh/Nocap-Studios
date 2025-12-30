@@ -1,9 +1,12 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { UploadCloud, PhoneCall, FileEdit } from 'lucide-react';
+import { Typewriter } from './Typewriter';
 
 export const Process: React.FC = () => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { margin: "-100px" });
     const steps = [
         {
             icon: <UploadCloud size={32} className="text-white" />,
@@ -32,8 +35,9 @@ export const Process: React.FC = () => {
                     className="mb-16"
                 >
                     <span className="text-blue-400 text-sm font-bold uppercase tracking-[0.2em]">Our Process</span>
-                    <h2 className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
-                        We Make It <br /> <span className="text-blue-400">Super Easy</span>
+                    <h2 ref={ref} className="text-6xl md:text-8xl font-heading font-bold text-white mt-4 uppercase leading-[0.9]">
+                        <Typewriter start={isInView} segments={[{ text: "We Make It " }]} /> <br />
+                        <Typewriter start={isInView} initialDelay={1200} segments={[{ text: "Super Easy", className: "text-blue-400" }]} />
                     </h2>
                 </motion.div>
 

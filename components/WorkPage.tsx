@@ -1,8 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, LayoutGroup, useInView } from 'framer-motion';
 import { Play, ArrowUpRight, Filter, ChevronRight, ArrowLeft, Clock, Eye, LayoutGrid, Building2, Megaphone, User, Layers, Monitor } from 'lucide-react';
 import { VideoPlayer } from './VideoPlayer';
+import { Typewriter } from './Typewriter';
 
 interface WorkPageProps {
   onNavigate: (view: 'home' | 'work') => void;
@@ -316,6 +317,8 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
   const [activeFilter, setActiveFilter] = useState(initialCategory);
   const [columns, setColumns] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
+  const titleRef = useRef(null);
+  const isTitleInView = useInView(titleRef, { margin: "-100px" });
 
   // Update active filter when initialCategory changes
   useEffect(() => {
@@ -409,11 +412,12 @@ export const WorkPage: React.FC<WorkPageProps> = ({ onNavigate, initialCategory 
         {/* Header Section */}
         <div className="mb-12 flex flex-col items-center text-center">
           <motion.h1
+            ref={titleRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-heading font-bold text-white mb-6 tracking-tight"
           >
-            Our Work
+            <Typewriter start={isTitleInView} segments={[{ text: "Our Work" }]} />
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
